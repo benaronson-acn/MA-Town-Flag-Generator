@@ -1,0 +1,5 @@
+{
+  "name": "Massachusetts Town Flag Generator",
+  "description": "An AI-powered tool to generate unique and symbolic town flags for any town in Massachusetts using Google's image generation model.",
+  "requestFramePermissions": []
+}
