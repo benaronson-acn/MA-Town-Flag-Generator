@@ -1,13 +1,13 @@
-
 import React from 'react';
 import { SavedFlag } from '../constants/interface';
 
 interface SidebarProps {
   savedFlags: SavedFlag[];
   onClearFlags: () => void;
+  onFlagSelect: (flag: SavedFlag) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ savedFlags, onClearFlags }) => {
+const Sidebar: React.FC<SidebarProps> = ({ savedFlags, onClearFlags, onFlagSelect }) => {
   return (
     <aside className="w-48 flex-shrink-0 bg-slate-800/50 rounded-xl shadow-2xl p-4 border border-slate-700 self-start max-w-[300px] w-[300px]">
       <h2 className="text-lg font-semibold text-slate-300 mb-4 text-center">
@@ -16,12 +16,18 @@ const Sidebar: React.FC<SidebarProps> = ({ savedFlags, onClearFlags }) => {
       <div className="grid grid-cols-3 gap-3">
         {savedFlags.map(({ townName, flagUrl }, index) => (
           <div key={`${townName}-${index}`} className="flex justify-center mt-0">
-            <img
-              src={flagUrl}
-              alt={`Previously generated flag for ${townName}`}
-              title={townName} // Tooltip with the town's name
-              className="w-[100px] h-[50px] object-cover rounded-sm shadow-lg transition-transform hover:scale-110"
-            />
+             <button
+              onClick={() => onFlagSelect({ townName, flagUrl })}
+              className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-indigo-500 rounded-sm"
+              aria-label={`Select flag for ${townName}`}
+            >
+              <img
+                src={flagUrl}
+                alt={`Previously generated flag for ${townName}`}
+                title={townName} // Tooltip with the town's name
+                className="w-[100px] h-[50px] object-cover rounded-sm shadow-lg transition-transform hover:scale-110"
+              />
+            </button>
           </div>
         ))}
       </div>

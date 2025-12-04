@@ -73,6 +73,24 @@ const App: React.FC = () => {
   const handleClearFlags = useCallback(() => {
     setSavedFlags([]);
   }, []);
+  
+  const handleFlagSelect = useCallback((flag: SavedFlag) => {
+    setSelectedTown(flag.townName);
+    setGeneratedFlag(flag.flagUrl);
+    setFlagDescription(null);
+    setError(null);
+  }, []);
+
+  const handleDownloadClick = useCallback(() => {
+    if (!generatedFlag) return;
+    const link = document.createElement('a');
+    link.href = generatedFlag;
+    const fileName = `flag-for-${selectedTown.replace(/\s+/g, '-')}.png`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, [generatedFlag, selectedTown]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 flex flex-col items-center p-4 sm:p-6 md:p-8">
@@ -82,7 +100,7 @@ const App: React.FC = () => {
             <Header />
 
             <div className="flex flex-row items-start gap-8 mt-8">
-              <Sidebar savedFlags={savedFlags} onClearFlags={handleClearFlags} />
+              <Sidebar savedFlags={savedFlags} onClearFlags={handleClearFlags} onFlagSelect={handleFlagSelect} />
 
               <main className="flex-grow">
                 <div className="bg-slate-800/50 rounded-xl shadow-2xl p-6 md:p-8 border border-slate-700">
@@ -127,11 +145,23 @@ const App: React.FC = () => {
                     <h3 className="text-lg font-semibold text-center text-slate-300">Generated Flag</h3>
                     <div className="mt-4 w-[200px] h-[200px]  mx-auto bg-slate-700/50 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-600 overflow-hidden">
                       {generatedFlag ? (
-                        <img
-                          src={generatedFlag}
-                          alt={`Generated flag for ${selectedTown}`}
-                          className="w-full h-full object-cover"
-                        />
+                        <div className="relative group w-full h-full">
+                          <img
+                            src={generatedFlag}
+                            alt={`Generated flag for ${selectedTown}`}
+                            className="w-full h-full object-cover"
+                          />
+                           <button
+                              onClick={handleDownloadClick}
+                              className="absolute top-2 right-2 bg-slate-900/60 backdrop-blur-sm p-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                              aria-label="Download flag"
+                              title="Download flag"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                        </div>
                       ) : isLoading ? (
                         <div className="flex flex-col items-center gap-2 text-slate-400 text-sm">
                           <Spinner size="h-8 w-8" />

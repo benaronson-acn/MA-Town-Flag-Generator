@@ -39,21 +39,20 @@ const Roadmap: React.FC<RoadmapProps> = ({ onBack }) => {
 
       <main className="space-y-8">
         <RoadmapSection title="Up Next" emoji="🚀">
-          <li>Share flags to social media.</li>
-          <li>Download high-resolution versions of the flags.</li>
-          <li>Add more town-specific data for better generation.</li>
+          <li>Add download feature.</li>
+          <li>Improve flag generation prompt strategy.</li>
         </RoadmapSection>
 
         <RoadmapSection title="Later" emoji="⏳">
-          <li>Generate flags for other states or countries.</li>
+          <li>Save all flags to some database so people can see others.</li>
           <li>User voting and rating system for generated flags.</li>
           <li>Historical flag comparison feature.</li>
         </RoadmapSection>
 
         <RoadmapSection title="Neat Ideas" emoji="💡">
-          <li>Generate other town-specific branding (e.g., logos, slogans).</li>
-          <li>Animate the generated flags (e.g., waving in the wind).</li>
-          <li>Integrate a map view to see generated flags by location.</li>
+          <li>Crowdsource info about towns.</li>
+          <li>Flag competition brackets.</li>
+          <li>Enhance flag generation model even further, if possible.</li>
         </RoadmapSection>
       </main>
     </div>
